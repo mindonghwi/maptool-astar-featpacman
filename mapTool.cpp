@@ -244,12 +244,12 @@ void MAPTOOL::mapResize(int nTileCountX, int nTileCountY)
 		{
 			for (int i = 0; i < nOffset; i++)
 			{
-				int nLeft = _vvMap[j].back()->getRectTile().right;
-				int nTop = _vvMap[j].back()->getRectTile().top;
-				_vvMap[j].push_back(new TILE());
 				TILE* pTile = _vvMap[j].back();
-				pTile->init((i+1)*nLeft, nTop, _nTileSize, _pImgMap, 0);
-				pTile = nullptr;
+				int nLeft = pTile ->getRectTile().right;
+				int nTop =  pTile ->getRectTile().top;
+				_vvMap[j].push_back(new TILE());
+				_vvMap[j].back()->init((i+1)*nLeft, nTop, _nTileSize, _pImgMap, 0);
+				
 			}
 		}
 
@@ -452,6 +452,7 @@ void MAPTOOL::load()
 	char* token;
 
 	//맵툴에는 타일 사이즈/ 타일 가로 갯수/ 타일 세로 갯수 / 파레트 셀 갯수
+	this->release();
 
 	token = strtok_s(strTmp, separator, &temp);
 
@@ -460,7 +461,6 @@ void MAPTOOL::load()
 	_nTileCountX = (atoi(token));							
 	token = strtok_s(NULL, separator, &temp);
 	_nTileCountY = atoi(token);
-
 	this->init(_nTileCountX, _nTileCountY,_nTileSize);
 
 	int nData = _nTileCountX * _nTileCountY * 20;
